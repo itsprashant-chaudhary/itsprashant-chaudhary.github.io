@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prashant Kumar — Competitive & Market Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:    #0D1B2A;
+    --ink:     #1A2E42;
+    --blue:    #1B6CA8;
+    --sky:     #3B9EE0;
+    --gold:    #C9963A;
+    --gold-lt: #E8C87A;
+    --cream:   #F5F0E8;
+    --white:   #FDFCFA;
+    --muted:   #8A9BB0;
+    --line:    rgba(27,108,168,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(13,27,42,0.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.82rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 7rem 4rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+  }
+  .hero-bg-circle.c1 {
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(27,108,168,0.25) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    animation: float1 8s ease-in-out infinite;
+  }
+  .hero-bg-circle.c2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(201,150,58,0.12) 0%, transparent 70%);
+    bottom: 50px; left: 10%;
+    animation: float2 11s ease-in-out infinite;
+  }
+
+  @keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,40px)} }
+  @keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(20px,-30px)} }
+
+  .hero-left { position: relative; z-index: 1; }
+
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'DM Mono', monospace; font-size: 0.72rem;
+    color: var(--gold); letter-spacing: 0.12em; text-transform: uppercase;
+    border: 1px solid rgba(201,150,58,0.35);
+    padding: 0.4rem 0.9rem; border-radius: 2rem;
+    margin-bottom: 1.8rem;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-tag::before { content: '▸'; font-size: 0.65rem; }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 900; line-height: 1.0;
+    color: var(--white);
+    margin-bottom: 0.4rem;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero-name span { color: var(--gold); }
+
+  .hero-title {
+    font-size: 1.05rem; font-weight: 300; color: var(--sky);
+    letter-spacing: 0.04em; margin-bottom: 2rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-desc {
+    font-size: 1rem; line-height: 1.8; color: #A8BCCF;
+    max-width: 480px; margin-bottom: 2.5rem;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .hero-ctas {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.85rem 2rem; border-radius: 4px;
+    background: var(--gold); color: var(--navy);
+    font-weight: 600; font-size: 0.88rem; letter-spacing: 0.05em;
+    text-decoration: none; transition: all 0.2s;
+    border: 2px solid var(--gold);
+  }
+  .btn-primary:hover { background: var(--gold-lt); border-color: var(--gold-lt); transform: translateY(-2px); }
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.85rem 2rem; border-radius: 4px;
+    background: transparent; color: var(--cream);
+    font-weight: 500; font-size: 0.88rem; letter-spacing: 0.05em;
+    text-decoration: none; transition: all 0.2s;
+    border: 2px solid rgba(255,255,255,0.2);
+  }
+  .btn-secondary:hover { border-color: var(--sky); color: var(--sky); transform: translateY(-2px); }
+
+  /* Hero right — stats card */
+  .hero-right {
+    display: flex; justify-content: center; align-items: center;
+    position: relative; z-index: 1;
+    animation: fadeIn 1s 0.5s ease both;
+  }
+
+  .stats-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 2.5rem;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    width: 380px;
+  }
+
+  .stat-item { text-align: center; }
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem; font-weight: 900;
+    color: var(--gold); line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .stat-label {
+    font-size: 0.75rem; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+
+  .stat-divider {
+    grid-column: 1 / -1;
+    height: 1px; background: var(--line);
+    margin: 0 -0.5rem;
+  }
+
+  /* ── SECTION COMMON ── */
+  section { padding: 6rem 4rem; position: relative; z-index: 1; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3vw, 3rem);
+    font-weight: 700; color: var(--white);
+    margin-bottom: 1rem;
+  }
+
+  .section-line {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin-bottom: 3rem;
+  }
+
+  /* ── ABOUT ── */
+  #about { background: rgba(255,255,255,0.02); }
+
+  .about-grid {
+    display: grid; grid-template-columns: 1.2fr 1fr;
+    gap: 5rem; align-items: start;
+  }
+
+  .about-text { font-size: 1rem; line-height: 1.9; color: #A8BCCF; }
+  .about-text p + p { margin-top: 1.2rem; }
+  .about-text strong { color: var(--cream); }
+
+  .about-sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .info-row {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: rgba(27,108,168,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+  .info-content {}
+  .info-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.2rem; }
+  .info-value { font-size: 0.9rem; color: var(--cream); font-weight: 500; }
+
+  /* ── SKILLS ── */
+  #skills {}
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    border-radius: 12px; padding: 1.8rem;
+    transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .skill-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--sky));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .skill-card:hover::before { transform: scaleX(1); }
+  .skill-card:hover {
+    background: rgba(27,108,168,0.08);
+    border-color: rgba(27,108,168,0.3);
+    transform: translateY(-4px);
+  }
+
+  .skill-card-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+  .skill-card-title { font-weight: 600; font-size: 0.95rem; color: var(--white); margin-bottom: 0.8rem; }
+
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .skill-tag {
+    font-size: 0.72rem; padding: 0.25rem 0.65rem;
+    border-radius: 3px; font-family: 'DM Mono', monospace;
+    background: rgba(27,108,168,0.15);
+    color: var(--sky); border: 1px solid rgba(27,108,168,0.25);
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: rgba(255,255,255,0.02); }
+
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 0.6rem; bottom: 0;
+    width: 1px; background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+
+  .timeline-item {
+    position: relative; margin-bottom: 3.5rem;
+    padding-left: 2rem;
+    opacity: 0; transform: translateX(-20px);
+    animation: slideIn 0.6s ease forwards;
+  }
+  .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+  .timeline-item:nth-child(2) { animation-delay: 0.25s; }
+  .timeline-item:nth-child(3) { animation-delay: 0.4s; }
+  .timeline-item:nth-child(4) { animation-delay: 0.55s; }
+
+  .timeline-dot {
+    position: absolute; left: -2.45rem; top: 0.55rem;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--gold); border: 2px solid var(--navy);
+    box-shadow: 0 0 0 3px rgba(201,150,58,0.3);
+  }
+
+  .timeline-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem; color: var(--gold);
+    letter-spacing: 0.1em; margin-bottom: 0.4rem;
+  }
+
+  .timeline-role { font-size: 1.1rem; font-weight: 600; color: var(--white); margin-bottom: 0.2rem; }
+  .timeline-company { font-size: 0.9rem; color: var(--sky); margin-bottom: 1rem; }
+
+  .timeline-bullets { list-style: none; }
+  .timeline-bullets li {
+    font-size: 0.9rem; color: #A8BCCF; line-height: 1.7;
+    padding-left: 1.2rem; position: relative; margin-bottom: 0.4rem;
+  }
+  .timeline-bullets li::before {
+    content: '▸'; position: absolute; left: 0;
+    color: var(--gold); font-size: 0.65rem; top: 0.3rem;
+  }
+
+  /* ── SECTORS ── */
+  #sectors {}
+
+  .sectors-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+  }
+
+  .sector-pill {
+    padding: 1.2rem 1rem; border-radius: 10px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    text-align: center; transition: all 0.25s;
+    cursor: default;
+  }
+  .sector-pill:hover {
+    background: rgba(27,108,168,0.12);
+    border-color: rgba(59,158,224,0.4);
+    transform: scale(1.04);
+  }
+  .sector-emoji { font-size: 1.6rem; display: block; margin-bottom: 0.5rem; }
+  .sector-name { font-size: 0.8rem; color: var(--cream); font-weight: 500; }
+
+  /* ── TOOLS ── */
+  #tools { background: rgba(255,255,255,0.02); }
+
+  .tools-categories { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+
+  .tool-cat-title {
+    font-size: 0.75rem; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--gold);
+    margin-bottom: 1rem; font-weight: 600;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .tool-cat-title::after {
+    content: ''; flex: 1; height: 1px; background: var(--line);
+  }
+
+  .tool-list { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+  .tool-list li {
+    font-size: 0.88rem; color: #A8BCCF;
+    padding: 0.5rem 0.8rem; border-radius: 6px;
+    border: 1px solid transparent; transition: all 0.2s;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .tool-list li:hover {
+    background: rgba(27,108,168,0.1);
+    border-color: var(--line); color: var(--cream);
+  }
+  .tool-list li::before { content: '◆'; font-size: 0.4rem; color: var(--gold); }
+
+  /* ── CONTACT ── */
+  #contact {}
+
+  .contact-wrapper {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+
+  .contact-left .section-title { margin-bottom: 1rem; }
+  .contact-desc { color: #A8BCCF; font-size: 1rem; line-height: 1.8; margin-bottom: 2rem; }
+
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    text-decoration: none; padding: 1.1rem 1.5rem;
+    border-radius: 10px; border: 1px solid var(--line);
+    background: rgba(255,255,255,0.03);
+    transition: all 0.25s; group: true;
+  }
+  .contact-link:hover {
+    border-color: rgba(201,150,58,0.4);
+    background: rgba(201,150,58,0.06);
+    transform: translateX(6px);
+  }
+  .contact-link-icon {
+    width: 42px; height: 42px; border-radius: 8px;
+    background: rgba(27,108,168,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+  .contact-link-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .contact-link-value { font-size: 0.92rem; color: var(--cream); font-weight: 500; }
+  .contact-link-arrow { margin-left: auto; color: var(--muted); transition: color 0.2s; }
+  .contact-link:hover .contact-link-arrow { color: var(--gold); }
+
+  /* CTA card */
+  .cta-card {
+    background: linear-gradient(135deg, rgba(27,108,168,0.2), rgba(201,150,58,0.1));
+    border: 1px solid rgba(201,150,58,0.2);
+    border-radius: 20px; padding: 3rem;
+    text-align: center;
+  }
+  .cta-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; color: var(--white); margin-bottom: 1rem;
+  }
+  .cta-card p { color: #A8BCCF; margin-bottom: 2rem; line-height: 1.7; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    position: relative; z-index: 1;
+  }
+  .footer-name {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold); font-size: 1rem;
+  }
+  .footer-note { font-size: 0.8rem; color: var(--muted); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+  @keyframes slideIn {
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    #hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; }
+    .hero-right { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .about-grid, .contact-wrapper, .tools-categories { grid-template-columns: 1fr; gap: 2rem; }
+    footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">PK</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#sectors">Sectors</a></li>
+    <li><a href="#tools">Tools</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-circle c1"></div>
+  <div class="hero-bg-circle c2"></div>
+
+  <div class="hero-left">
+    <div class="hero-tag">Open to Opportunities</div>
+    <h1 class="hero-name">Prashant<br><span>Kumar</span></h1>
+    <p class="hero-title">Competitive & Market Intelligence Specialist</p>
+    <p class="hero-desc">
+      8+ years turning complex market signals into strategic intelligence that moves the needle. 
+      I help consulting, advisory, and sales teams win — through sharper competitive positioning, 
+      deeper market insight, and intelligence that actually gets used.
+    </p>
+    <div class="hero-ctas">
+      <a href="mailto:pleaseemailprashant@gmail.com" class="btn-primary">✉ Get In Touch</a>
+      <a href="https://www.linkedin.com/in/prashant-kumar" target="_blank" class="btn-secondary">⟶ LinkedIn</a>
+      <a href="#" class="btn-secondary" onclick="window.print(); return false;">⤓ Download CV</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="stats-card">
+      <div class="stat-item">
+        <div class="stat-number">8+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">7</div>
+        <div class="stat-label">Industry Sectors</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <div class="stat-number">40%</div>
+        <div class="stat-label">Reporting Accuracy Lift</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">15+</div>
+        <div class="stat-label">Research Platforms</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item" style="grid-column:1/-1">
+        <div class="stat-number" style="font-size:1.6rem">Noida, India</div>
+        <div class="stat-label">Available for Hybrid / Remote</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About Me</div>
+  <div class="section-title">Strategic Intelligence,<br>Actionable Outcomes</div>
+  <div class="section-line"></div>
+
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>
+        I'm a Competitive & Market Intelligence professional with <strong>8+ years</strong> of experience 
+        partnering with consulting, advisory, and sales teams to deliver the intelligence that drives 
+        strategic decisions. My work lives at the intersection of research rigour and business impact — 
+        turning complex, multi-source data into clear, actionable insights.
+      </p>
+      <p>
+        Across my career I've supported <strong>client engagements for global firms</strong> spanning neo-banking 
+        market entry in the UK, enterprise technology ecosystems for Lenovo, and pharmaceutical 
+        commercialisation strategy in Life Sciences. I've been the trusted advisor that deal teams 
+        call when the stakes are high.
+      </p>
+      <p>
+        I work with the best research platforms in the industry — <strong>Capital IQ, ZoomInfo, Mergermarket, 
+        D&B Hoovers</strong> — and I'm at the leading edge of integrating <strong>Generative AI</strong> (Claude, ChatGPT, 
+        Gemini) into research workflows to accelerate delivery without sacrificing quality.
+      </p>
+      <p>
+        I hold a <strong>B.Tech in Information Technology</strong> from Symbiosis Institute of Technology, Pune, 
+        and a <strong>Diploma in Business Management</strong> from SIBM Pune — a combination that gives me both 
+        the technical rigour and business acumen this work demands.
+      </p>
+    </div>
+
+    <div class="about-sidebar">
+      <div class="info-row">
+        <div class="info-icon">📍</div>
+        <div class="info-content">
+          <div class="info-label">Location</div>
+          <div class="info-value">Noida, Uttar Pradesh, India</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">🎓</div>
+        <div class="info-content">
+          <div class="info-label">Education</div>
+          <div class="info-value">B.Tech IT + Diploma in BM<br><span style="color:var(--muted);font-size:0.82rem">Symbiosis, Pune</span></div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">📱</div>
+        <div class="info-content">
+          <div class="info-label">Phone</div>
+          <div class="info-value">+91-8800517366</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">✉</div>
+        <div class="info-content">
+          <div class="info-label">Email</div>
+          <div class="info-value">pleaseemailprashant@gmail.com</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">⏱</div>
+        <div class="info-content">
+          <div class="info-label">Notice Period</div>
+          <div class="info-value">1 Month</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">🌐</div>
+        <div class="info-content">
+          <div class="info-label">Work Mode</div>
+          <div class="info-value">Hybrid / Remote / On-site</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">What I Do</div>
+  <div class="section-title">Core Competencies</div>
+  <div class="section-line"></div>
+
+  <div class="skills-grid">
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🔍</div>
+      <div class="skill-card-title">Competitive Intelligence</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Competitor Analysis</span>
+        <span class="skill-tag">Win/Loss Analysis</span>
+        <span class="skill-tag">Positioning Strategy</span>
+        <span class="skill-tag">Deal Enablement</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">📊</div>
+      <div class="skill-card-title">Market Research & Intelligence</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Secondary Research</span>
+        <span class="skill-tag">Market Sizing</span>
+        <span class="skill-tag">Feasibility Studies</span>
+        <span class="skill-tag">U&A Analysis</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">💡</div>
+      <div class="skill-card-title">Insights & Synthesis</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Insight Synthesis</span>
+        <span class="skill-tag">Executive Reporting</span>
+        <span class="skill-tag">Strategic Advisory</span>
+        <span class="skill-tag">Point-of-View</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">📈</div>
+      <div class="skill-card-title">Data & Performance Analytics</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Quantitative Analysis</span>
+        <span class="skill-tag">KPI Dashboards</span>
+        <span class="skill-tag">Power BI</span>
+        <span class="skill-tag">Data Governance</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🤖</div>
+      <div class="skill-card-title">AI-Enhanced Research</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Claude AI</span>
+        <span class="skill-tag">ChatGPT</span>
+        <span class="skill-tag">Gemini</span>
+        <span class="skill-tag">Workflow Automation</span>
+      </div>
+    </div>
+    <div class="skill-card reveal">
+      <div class="skill-card-icon">🤝</div>
+      <div class="skill-card-title">Stakeholder & Sales Enablement</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Client Advisory</span>
+        <span class="skill-tag">Sales Enablement</span>
+        <span class="skill-tag">CRM Analysis</span>
+        <span class="skill-tag">Pipeline Management</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">Career Journey</div>
+  <div class="section-title">Professional Experience</div>
+  <div class="section-line"></div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">APR 2021 — PRESENT · 5 YRS</div>
+      <div class="timeline-role">Senior Competitive & Market Intelligence Specialist</div>
+      <div class="timeline-company">Virtual Employee Pvt Ltd (Teckvalley India) · Noida</div>
+      <ul class="timeline-bullets">
+        <li>Trusted intelligence advisor to consulting and client-facing teams across 5+ verticals</li>
+        <li>Delivered competitive positioning, market entry, and deal-support intelligence for global clients</li>
+        <li>Built KPI dashboards in Power BI & Excel, improving reporting accuracy by 40%</li>
+        <li>Applied GenAI tools (Claude, ChatGPT, Gemini) to accelerate research delivery</li>
+        <li>Key engagements: UK Neo Bank CI, Lenovo enterprise tech, Ozempic pharma market research</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">JUN 2018 — SEP 2019 · 1 YR 4 MOS</div>
+      <div class="timeline-role">Data Research & Market Intelligence Analyst</div>
+      <div class="timeline-company">ToTheNew · Noida</div>
+      <ul class="timeline-bullets">
+        <li>Conducted market research and competitive analysis for business development</li>
+        <li>Built campaign performance dashboards; automated reporting in Excel</li>
+        <li>Managed CRM data governance for sales pipeline accuracy</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">NOV 2017 — JUN 2018 · 8 MOS</div>
+      <div class="timeline-role">Research & Intelligence Analyst</div>
+      <div class="timeline-company">Zylotech (now Terminus) · Noida</div>
+      <ul class="timeline-bullets">
+        <li>Research across IT, Digital Agencies & OTT sectors using Hoovers, ZoomInfo, Crunchbase</li>
+        <li>Developed competitive intelligence and marketing strategy inputs</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">JUL 2015 — NOV 2017 · 2 YRS 5 MOS</div>
+      <div class="timeline-role">Senior Market Research & Intelligence Analyst</div>
+      <div class="timeline-company">iSOURCE Opportunities · Noida</div>
+      <ul class="timeline-bullets">
+        <li>Market sizing, SWOT analysis, competitive benchmarking for client projects</li>
+        <li>Research outputs directly improved lead quality and sales performance</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SECTORS -->
+<section id="sectors">
+  <div class="section-label">Domain Knowledge</div>
+  <div class="section-title">Industry Sectors</div>
+  <div class="section-line"></div>
+
+  <div class="sectors-grid reveal">
+    <div class="sector-pill"><span class="sector-emoji">🏦</span><span class="sector-name">Banking & Financial Services</span></div>
+    <div class="sector-pill"><span class="sector-emoji">💻</span><span class="sector-name">Technology & IT Services</span></div>
+    <div class="sector-pill"><span class="sector-emoji">📡</span><span class="sector-name">Telco & OTT / Media</span></div>
+    <div class="sector-pill"><span class="sector-emoji">🛍</span><span class="sector-name">Consumer Goods & Retail</span></div>
+    <div class="sector-pill"><span class="sector-emoji">💊</span><span class="sector-name">Life Sciences & Pharma</span></div>
+    <div class="sector-pill"><span class="sector-emoji">🏦</span><span class="sector-name">Fintech & Neo Banking</span></div>
+    <div class="sector-pill"><span class="sector-emoji">📲</span><span class="sector-name">Digital Agencies</span></div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="section-label">Tech Stack</div>
+  <div class="section-title">Tools & Platforms</div>
+  <div class="section-line"></div>
+
+  <div class="tools-categories reveal">
+    <div>
+      <div class="tool-cat-title">Research Databases</div>
+      <ul class="tool-list">
+        <li>Capital IQ</li>
+        <li>D&B Hoovers</li>
+        <li>ZoomInfo</li>
+        <li>Mergermarket</li>
+        <li>Factiva</li>
+        <li>LinkedIn Sales Navigator</li>
+        <li>Crunchbase / Owler</li>
+      </ul>
+    </div>
+    <div>
+      <div class="tool-cat-title">Analytics & Reporting</div>
+      <ul class="tool-list">
+        <li>MS Excel (Advanced)</li>
+        <li>MS PowerPoint (Advanced)</li>
+        <li>Power BI</li>
+        <li>Looker Studio</li>
+        <li>SQL (Intermediate)</li>
+        <li>Python (Basic)</li>
+      </ul>
+    </div>
+    <div>
+      <div class="tool-cat-title">CRM & AI Tools</div>
+      <ul class="tool-list">
+        <li>Salesforce</li>
+        <li>Zoho CRM</li>
+        <li>Oracle NetSuite</li>
+        <li>Pipedrive</li>
+        <li>Claude AI</li>
+        <li>ChatGPT / Gemini</li>
+        <li>Jira / Agile</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">Let's Connect</div>
+  <div class="section-title">Get In Touch</div>
+  <div class="section-line"></div>
+
+  <div class="contact-wrapper">
+    <div class="contact-left reveal">
+      <p class="contact-desc">
+        I'm open to roles in Competitive Intelligence, Market Research, Strategic Insights, 
+        and Research Advisory — across consulting firms, corporates, and knowledge departments. 
+        Feel free to reach out directly.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:pleaseemailprashant@gmail.com" class="contact-link">
+          <div class="contact-link-icon">✉</div>
+          <div>
+            <div class="contact-link-label">Email</div>
+            <div class="contact-link-value">pleaseemailprashant@gmail.com</div>
+          </div>
+          <div class="contact-link-arrow">→</div>
+        </a>
+        <a href="tel:+918800517366" class="contact-link">
+          <div class="contact-link-icon">📱</div>
+          <div>
+            <div class="contact-link-label">Phone</div>
+            <div class="contact-link-value">+91-8800517366</div>
+          </div>
+          <div class="contact-link-arrow">→</div>
+        </a>
+        <a href="https://www.linkedin.com/in/prashant-kumar" target="_blank" class="contact-link">
+          <div class="contact-link-icon">💼</div>
+          <div>
+            <div class="contact-link-label">LinkedIn</div>
+            <div class="contact-link-value">linkedin.com/in/prashant-kumar</div>
+          </div>
+          <div class="contact-link-arrow">→</div>
+        </a>
+        <a href="https://www.naukri.com/mnjuser/profile" target="_blank" class="contact-link">
+          <div class="contact-link-icon">🔎</div>
+          <div>
+            <div class="contact-link-label">Naukri Profile</div>
+            <div class="contact-link-value">naukri.com — Prashant Kumar</div>
+          </div>
+          <div class="contact-link-arrow">→</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="cta-card reveal">
+      <h3>Ready to add intelligence to your team?</h3>
+      <p>
+        Whether you need a trusted research partner for a specific engagement or a full-time 
+        competitive intelligence specialist — let's talk about how I can help your team win.
+      </p>
+      <a href="mailto:pleaseemailprashant@gmail.com" class="btn-primary" style="display:inline-flex;justify-content:center;">
+        ✉ Send Me a Message
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Prashant Kumar</div>
+  <div class="footer-note">Competitive & Market Intelligence · Noida, India · 2026</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Smooth nav highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id');
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--gold)' : '';
+    });
+  });
+</script>
+</body>
+</html>
